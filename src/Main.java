@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         char[][] map = {
@@ -22,8 +20,8 @@ public class Main {
     }
 
     public static char[][] createPath(char[][] labirint) {
-        int startRow = -100;
-        int startCol = -100;
+        int startRow = 0;
+        int startCol = 0;
         for(int i = 0; i < labirint.length; i++) {
             for(int j = 0; j < labirint.length; j++) {
                 if(labirint[i][j] == 's') {
@@ -34,25 +32,29 @@ public class Main {
             }
         }
 
-        path(labirint, startRow, startCol);
+        canGo(labirint, startRow, startCol);
 
         return labirint;
     }
 
-    public static boolean path(char[][] labirint, int row, int col) {
-        if(row < 0 || row >= labirint.length || col < 0 || col >= labirint[row].length){
+    public static boolean canGo(char[][] labirint, int row, int col) {
+        if(row < 0 || row >= labirint.length || col < 0 || col >= labirint[row].length)
             return false;
-        }
+
         if(labirint[row][col] == 'f')
             return true;
+
         if(labirint[row][col] == '#' || labirint[row][col] == '*')
             return false;
+
         labirint[row][col] = '*';
-        if(path(labirint, row, col - 1) ||
-                path(labirint, row, col + 1) ||
-                path(labirint, row - 1, col) ||
-                path(labirint, row + 1, col))
+
+        if(canGo(labirint, row, col - 1) ||
+                canGo(labirint, row, col + 1) ||
+                canGo(labirint, row - 1, col) ||
+                canGo(labirint, row + 1, col))
             return true;
+
         labirint[row][col] = '.';
 
         return false;
